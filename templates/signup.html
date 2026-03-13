@@ -83,14 +83,14 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Contraseña</label>
                                                 <div class="input-group auth-pass-inputgroup">
-                                                    <input type="password" class="form-control" id="user-confirm-password" placeholder="Ingresa tu contraseña nuevamente" aria-label="Password" aria-describedby="password-addon">
+                                                    <input type="password" class="form-control" id="user-password" placeholder="Ingresa tu contraseña" aria-label="Password" aria-describedby="password-addon">
                                                 </div>
                                             </div>
 
                                             <div class="mb-3">
                                                 <label class="form-label">Confirmar Contraseña</label>
                                                 <div class="input-group auth-pass-inputgroup">
-                                                    <input type="password" class="form-control" id="user-password" placeholder="Ingresa tu contraseña" aria-label="Password" aria-describedby="password-addon">
+                                                    <input type="password" class="form-control" id="user-confirm-password" placeholder="Ingresa tu contraseña nuevamente" aria-label="Password" aria-describedby="password-addon">
                                                 </div>
                                             </div>
                                             <div class="mt-3 d-grid">
@@ -98,7 +98,7 @@
                                             </div>
                                            
                                             <div class="mt-5 text-center">
-                                                <p>¿Ya eres cliente? <br><a href="#" class="fw-medium text-primary"> Inicia sesión </a> </p>
+                                                <p>¿Ya eres cliente? <br><a href="{{ url_for('index') }}" class="fw-medium text-primary"> Inicia sesión </a> </p>
                                             </div>
                                         </div>
                                     </div>
@@ -123,6 +123,7 @@
         <script src="{{ url_for('static', filename='libs/node-waves/waves.min.js') }}"></script>
 
         <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/dogo/signup.js') }}"></script>
 
     </body>
 </html>
