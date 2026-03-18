@@ -5,13 +5,21 @@ function login(){
     const password = document.getElementById("user-password").value;
 
     if(email == "") {
-        alert("Debe ingresar su correo electrónico")
-        // TODO: Completar con sweet alert
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo requerido',
+            text: 'Debe ingresar su correo electrónico.'
+        });
+        return;
     }
 
     if(password == "") {
-        alert("Debe ingresar su contraseña")
-        // TODO: Completar con sweet alert
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campo requerido',
+            text: 'Debe ingresar su correo electrónico.'
+        });
+        return;
     }
 
     const data = {
@@ -29,8 +37,11 @@ function login(){
         if(result.success){
             window.location.href = "/welcome"
         } else {
-            alert("Sus datos de acceso no son correctos")
-            // TODO : Completar con sweet alert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de acceso',
+                text: 'Sus datos de acceso no son correctos.'
+            });
         }
     })
     .catch(error => {
