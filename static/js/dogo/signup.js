@@ -1,34 +1,84 @@
 document.getElementById("btn-register").addEventListener("click", register);
 
 function register(){
-    password = document.getElementById("user-password").value;
-    confirmPassword = document.getElementById("user-confirm-password").value;
+    const name = document.getElementById("user-name").value;
+    const email = document.getElementById("user-email").value;
+    const password = document.getElementById("user-password").value;
+    const repeatPassword = document.getElementById("user-repeat-password").value;
 
-    if(password != confirmPassword) {
-        alert("Las contraseñas no coinciden.")
+    if(name === "") {
+        Swal.fire({
+            title: 'Nombre no ingresado',
+            text: 'Debe ingresar su nombre.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
         return;
+    }
 
-        // sweetalert
+    if(email === "") {
+        Swal.fire({
+            title: 'Correo electrónico no ingresado',
+            text: 'Debe ingresar su correo electrónico.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if(password === "") {
+        Swal.fire({
+            title: 'Contraseña no ingresada',
+            text: 'Debe ingresar una contraseña.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if(repeatPassword === "") {
+        Swal.fire({
+            title: 'Confirmación requerida',
+            text: 'Debe repetir la contraseña.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+
+    if(password != repeatPassword) {
+        Swal.fire({
+            title: 'Contraseñas no coinciden',
+            text: 'Las contraseñas ingresadas no coinciden.',
+            icon: 'warning',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
     }
 
     const data = {
-        name: document.getElementById("user-name").value,
-        email: document.getElementById("user-email").value,
+        name: name,
+        email: email,
         password: password
     }
 
     //endpoint
     fetch('api/users', {
         method:"POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json"},
         body: JSON.stringify(data)
-    }).then(response => response.json())
-    .then(result => {
-        if(result.success) {
-            alert("Usuario se guardó correctamente")
-        } else {
-            alert(result.message)
-        }
+    }). then(response => response.json())
+    .then(result =>  {
+        Swal.fire({
+            title: result.success ? 'Cuenta creada' : 'Error al crear la cuenta',
+            text: result.message,
+            icon: result.success ? 'success' : 'error',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            if(result.success){
+                window.location.href = "/";
+            }
+        });
     })
     .catch(error => {
         console.error(error);
