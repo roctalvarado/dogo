@@ -62,7 +62,7 @@ class User:
     def check_login(email, password):
         try:
             connection = get_connection()
-            cursor = connection.cursor()
+            cursor = connection.cursor(pymysql.cursors.DictCursor)
 
             sql = "SELECT id, name, email, password FROM user WHERE email = %s"
             cursor.execute(sql, (email,))
