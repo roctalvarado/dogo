@@ -1,8 +1,8 @@
-document.getElementById("btn-signin").addEventListener("click, login");
+document.getElementById("btn-signin").addEventListener("click", login);
 
 function login(){
-    email: document.getElementById("user-email").value;
-    password: document.getElementById("user-password").value;
+    const email = document.getElementById("user-email").value;
+    const password = document.getElementById("user-password").value;
 
     if(email == "") {
         alert("Debe ingresar su correo electrónico")
@@ -20,7 +20,7 @@ function login(){
     }
 
     //endpoint
-    fetch('api/login', {
+    fetch('/api/login', {
         method:"POST",
         headers: { "Content-Type": "application/json"},
         body: JSON.stringify(data)
