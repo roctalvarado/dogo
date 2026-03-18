@@ -17,7 +17,7 @@ function login(){
         Swal.fire({
             icon: 'warning',
             title: 'Campo requerido',
-            text: 'Debe ingresar su correo electrónico.'
+            text: 'Debe ingresar su contraseña.'
         });
         return;
     }
