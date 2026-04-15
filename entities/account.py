@@ -1,21 +1,48 @@
+from datetime import datetime
+from entities.user import User
+from entities.transaction import Transaction
 from persistence.db import get_connection
 import pymysql
 
-class Account:
-    def get_by_user_id(user_id):
-        connection = get_connection()
-        cursor = connection.cursor(pymysql.cursors.DictCursor)
+class Account():
+    def __init__(self, id: int, number: str, creation_date: datetime, user: User, transactions: list):
+        self.id = id
+        self.number = number
+        self.creation_date = creation_date
+        self.user = user
+        self.transactions = transactions
 
-        sql = "SELECT id, number, creation_date FROM account WHERE id_user = %s"
+    def get_account_by_id(id_user: int):
+        try:
+            connection = get_connection()
+            cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-        cursor.execute(sql, (user_id,))
+            sql = "SELECT id, number, creation_date, id_user FROM account WHERE id_user = %s"
 
-        account = cursor.fetchone()
+            cursor.execute(sql, (id_user,))
 
-        cursor.close()
-        connection.close()
+            rs = cursor.fetchone()
 
-        return account
+            user = User.get_by_id(rs["id_user"])
+
+            transactions = Transaction.get_transactions_by_account(rs["id"])
+
+            account = Account(
+                rs["id"],
+                rs["number"],
+                rs["creation_date"],
+                user,
+                transactions
+            )
+
+            cursor.close()
+            connection.close()
+
+            return account
+        except:
+            pass
+    
+    """
     
     def get_balance(account_id):
         connection = get_connection()
@@ -34,13 +61,13 @@ class Account:
         if result['balance'] == None:
             return 0.0
         else:
-            return['balance']
+            return result['balance']
         
     def get_transactions(account_id):
         connection = get_connection()
         cursor = connection.cursor(pymysql.cursors.DictCursor)
 
-        sql = "SELECT id, description, date, amount, type FROM transaction WHERE id_account = %s ORDER BY date DESC"
+        sql = "SELECT id, description, date, amount, type FROM transaction WHERE id_account = %s ORDER BY date"
 
         cursor.execute(sql, (account_id,))
 
@@ -49,4 +76,4 @@ class Account:
         cursor.close()
         connection.close()
 
-        return transactions
+        return transactions """

@@ -22,7 +22,7 @@ def signup():
 @app.route('/welcome')
 @login_required
 def welcome():
-    account = Account.get_by_user_id(current_user.id)
+    account = Account.get_account_by_id(current_user.id)
 
     account_id = account['id']
 
