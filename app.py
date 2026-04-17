@@ -34,8 +34,6 @@ def create_user():
     email = data.get("email")
     password = data.get("password")
 
-    User.save(name, email, password)
-
     if User.check_email_exists(email):
         return jsonify({"success": False, "message": "El correo electrónico ingresado ya se encuentra registrado."}), 409
 

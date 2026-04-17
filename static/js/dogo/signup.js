@@ -4,7 +4,7 @@ function register(){
     const name = document.getElementById("user-name").value;
     const email = document.getElementById("user-email").value;
     const password = document.getElementById("user-password").value;
-    const repeatPassword = document.getElementById("user-repeat-password").value;
+    const repeatPassword = document.getElementById("user-confirm-password").value;
 
     if(name === "") {
         Swal.fire({
