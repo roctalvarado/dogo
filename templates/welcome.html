@@ -104,6 +104,7 @@
 
             <div class="main-content">
 
+                <!--
                 <div class="page-content">
                     <div class="container-fluid">
 
@@ -123,16 +124,15 @@
                             </div>
                         </div>
                     </div>  
-                </div>
+                </div> -->
 
-                <!--
                 <div class="page-content">
                     <div class="container-fluid">
 
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                                    <h4 class="mb-sm-0 font-size-18">¡Bienvenido de vuelta, {{ name }}!</h4>
+                                    <h4 class="mb-sm-0 font-size-18">¡Bienvenido de vuelta, {{ current_user.name }}!</h4>
 
                                     <div class="page-title-right">
                                         <ol class="breadcrumb m-0">
@@ -149,7 +149,7 @@
                                 <div class="card bg-primary text-white text-center p-3">
                                     <div class="card-body">
                                         <h5 class="card-title text-white mb-3">Saldo Actual</h5>
-                                        <h2 class="display-5 fw-bold text-white mb-0">${{ "%.2f"|format(balance) }}</h2>
+                                        <h2 class="display-5 fw-bold text-white mb-0">${{ "%.2f"|format(account.balance) }}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -172,19 +172,19 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for tx in transactions %}
+                                                    {% for t in account.transactions %}
                                                     <tr>
-                                                        <td>{{ tx.date.strftime('%Y-%m-%d %H:%M') }}</td>
-                                                        <td>{{ tx.description }}</td>
+                                                        <td>{{ t.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                                                        <td>{{ t.description }}</td>
                                                         <td>
-                                                            {% if tx.type == 1 %}
+                                                            {% if t.type.value == 1 %}
                                                                 <span class="badge bg-success font-size-12">Ingreso</span>
                                                             {% else %}
                                                                 <span class="badge bg-danger font-size-12">Egreso</span>
                                                             {% endif %}
                                                         </td>
-                                                        <td class="text-end fw-bold {% if tx.type == 1 %}text-success{% else %}text-danger{% endif %}">
-                                                            {% if tx.type == 1 %}+{% else %}-{% endif %}${{ "%.2f"|format(tx.amount) }}
+                                                        <td class="text-end fw-bold {% if t.type.value == 1 %}text-success{% else %}text-danger{% endif %}">
+                                                            {% if t.type.value == 1 %}+{% else %}-{% endif %}${{ "%.2f"|format(t.amount) }}
                                                         </td>
                                                     </tr>
                                                     {% else %}
@@ -203,7 +203,7 @@
                         
                     </div>  
                 </div>
-                -->
+                <!-- -->
  
                 <div class="modal fade transaction-detailModal" tabindex="-1" role="dialog" aria-labelledby="transaction-detailModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">

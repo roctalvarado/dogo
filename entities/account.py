@@ -39,6 +39,17 @@ class Account():
             connection.close()
 
             return account
-        except:
-            pass
+        except Exception as e:
+            print(f"Error obteniendo cuenta: {e}")
+            return []
+
+    @property
+    def balance(self):
+        total = 0.0
+        for t in self.transactions:
+            if t.type.value == 1: 
+                total += float(t.amount)
+            else:
+                total -= float(t.amount)
+        return total
     
