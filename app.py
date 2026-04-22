@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from entities.user import User
 from entities.account import Account
 from enums.transaction_type import TransactionType
+from entities.log import Log
+from enums.log_type import LogType
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from dotenv import load_dotenv
 import os
@@ -52,6 +54,9 @@ def login():
     user = User.check_login(email, password)
     if user:
         login_user(user)
+
+        Log.saveLog(user, "Inicio de sesión exitoso", LogType.LOGIN)
+
         return jsonify({
             "success": True,
             "message": "Sesión iniciada correctamente."
