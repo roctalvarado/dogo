@@ -53,14 +53,20 @@ def login():
 
     user = User.check_login(email, password)
     if user:
-        login_user(user)
+        if user.is_active:
+            login_user(user)
 
-        Log.saveLog(user, "Inicio de sesión exitoso", LogType.LOGIN)
+            Log.saveLog(user, "Inicio de sesión exitoso", LogType.LOGIN)
 
-        return jsonify({
-            "success": True,
-            "message": "Sesión iniciada correctamente."
-        }), 200
+            return jsonify({
+                "success": True,
+                "message": "Sesión iniciada correctamente."
+            }), 200
+        else:
+            return jsonify({
+                "success": False,
+                "message": "El usuario está suspendido, contacte a un administrador para más información."
+            }), 403
     else:
         return jsonify({
             "success": False,
