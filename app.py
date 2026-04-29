@@ -8,6 +8,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from dotenv import load_dotenv
 import os
 
+
+load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 login_manager = LoginManager()

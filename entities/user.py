@@ -13,7 +13,11 @@ class User (UserMixin):
         self.password = password
         self.profile = profile
         self.permissions = permissions
-        self.is_active = is_active
+        self._is_active = is_active
+
+    @property
+    def is_active(self):
+        return self._is_active
     
     def check_email_exists(email) -> bool:
         """
@@ -79,14 +83,18 @@ class User (UserMixin):
 
             if user and check_password_hash(user["password"], password):
                 permissions = Permission.get_permissions_by_id(user["id"])
+
+                if user["is_active"] is not None:
+                    is_active = user["is_active"] == b'\x01'
+
                 return User(
                     user["id"],
                     user["name"],
                     user["email"],
                     "",
-                    user["profile"],
+                    Profile(user["profile"]),
                     permissions,
-                    user["is_active"],
+                    is_active
                 )
 
             return None
@@ -108,15 +116,18 @@ class User (UserMixin):
             connection.close()
 
             if user:
+                
                 permissions = Permission.get_permissions_by_id(user["id"])
+                if user["is_active"] is not None:
+                    is_active = user["is_active"] == b'\x01'
                 return User(
                     user["id"],
                     user["name"],
                     user["email"],
                     user["password"],
-                    user["is_active"],
+                    Profile(user["profile"]),
                     permissions,
-                    user["profile"]
+                    is_active
                 )
 
             return None
