@@ -1,0 +1,49 @@
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Registro de Actividad (Logs)</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Fecha y Hora</th>
+                                        <th>Usuario</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in logs %}
+                                    <tr>
+                                        <td>{{ log.id }}</td>
+                                        <td>{{ log.date.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                        <td>
+                                            <h5 class="font-size-14 mb-1">{{ log.user.name }}</h5>
+                                            <p class="text-muted mb-0">{{ log.user.email }}</p>
+                                        </td>
+                                        <td>{{ log.description }}</td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" class="text-center text-muted py-4">No hay registros para mostrar.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>

@@ -132,3 +132,33 @@ class User (UserMixin):
         except Exception as ex:
             print(f"Error:{ex}")
             return False
+        
+    @staticmethod
+    def get_all():
+        try:
+            connection = get_connection()
+            cursor = connection.cursor(pymysql.cursors.DictCursor)
+            
+            sql = "SELECT id, name, email, is_active, profile FROM user"
+            cursor.execute(sql)
+            rs = cursor.fetchall()
+            
+            users = []
+            for r in rs:
+                is_active = r["is_active"] == b'\x01' if r["is_active"] is not None else False
+                users.append(User(
+                    r["id"],
+                    r["name"],
+                    r["email"],
+                    "",
+                    Profile(r["profile"]),
+                    [], # Lista de permisos vacía para optimizar el listado general
+                    is_active
+                ))
+            return users
+        except Exception as e:
+            print(f"Error obteniendo usuarios: {e}")
+            return []
+        finally:
+            cursor.close()
+            connection.close()

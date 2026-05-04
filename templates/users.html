@@ -1,0 +1,70 @@
+<!--
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0 font-size-18">Gestión de Usuarios</h4>
+                    <div class="page-title-right">
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Rol</th>
+                                        <th>Estado</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for u in users %}
+                                    <tr>
+                                        <td>{{ u.id }}</td>
+                                        <td>{{ u.name }}</td>
+                                        <td>{{ u.email }}</td>
+                                        <td>
+                                            {% if u.profile.value == 1 %}
+                                                <span class="badge bg-primary">Administrador</span>
+                                            {% else %}
+                                                <span class="badge bg-info">Custom</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if u.is_active %}
+                                                <span class="badge bg-success">Activo</span>
+                                            {% else %}
+                                                <span class="badge bg-danger">Suspendido</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-primary" title="Editar Permisos"><i class="bx bx-key"></i></button>
+                                            <button class="btn btn-sm btn-outline-secondary" title="Editar"><i class="bx bx-pencil"></i></button>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-4">No hay usuarios registrados.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+-->
+usuarios

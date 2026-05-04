@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from entities.user import User
 from entities.account import Account
 from enums.transaction_type import TransactionType
+from enums.value_permission import ValuePermission
 from entities.log import Log
 from enums.log_type import LogType
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from dotenv import load_dotenv
+from functools import wraps
+from flask import abort
 import os
-
 
 load_dotenv()
 app = Flask(__name__)
@@ -15,6 +17,37 @@ app.secret_key = os.getenv("SECRET_KEY")
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "index"
+
+def admin_required(f):
+    """Permite el acceso solo si el usuario es ADMIN y está activo."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_active or current_user.profile.value != 1:
+            abort(403) # Prohibido
+        return f(*args, **kwargs)
+    return decorated_function
+
+"""
+def permission_required(required_permission: ValuePermission):
+    # Permite el acceso si es ADMIN o si el perfil Custom tiene el Enum de permiso específico.
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(*args, **kwargs):
+            if not current_user.is_active:
+                abort(403)
+            
+            if current_user.profile.value == 1:
+                return f(*args, **kwargs)
+            
+            has_permission = any(p.value == required_permission for p in current_user.permissions)
+            
+            if not has_permission:
+                abort(403)
+                
+            return f(*args, **kwargs)
+        return decorated_function
+    return 
+"""
 
 @app.route('/')
 def index():
@@ -84,6 +117,19 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect(url_for("index"))
+
+@app.route('/logs')
+@login_required
+def logs():
+    logs_data = Log.get_all()
+    return render_template('logs.html', logs=logs_data)
+
+@app.route('/users')
+@login_required
+@admin_required # Solo ADMIN
+def users():
+    users_data = User.get_all()
+    return render_template('users.html', users=users_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -64,6 +64,7 @@
 
             <div class="vertical-menu">
                 <div data-simplebar class="h-100">
+                    <!--
                     <div id="sidebar-menu">
                         <ul class="metismenu list-unstyled" id="side-menu">
                             <li class="menu-title" key="t-menu">Categoría 1</li>
@@ -99,8 +100,42 @@
                             </li>
                         </ul>
                     </div>
+                    -->
+                    <div id="sidebar-menu">
+                        <ul class="metismenu list-unstyled" id="side-menu">
+                            <li class="menu-title" key="t-menu">Menú Principal</li>
+                            
+                            <li>
+                                <a href="/logs" class="waves-effect">
+                                    <i class="bx bx-list-ul"></i>
+                                    <span key="t-logs">Listado del Log</span>
+                                </a>
+                            </li>
+
+                            {% if current_user.profile.value == 1 %}
+                            <li>
+                                <a href="/usuarios" class="waves-effect">
+                                    <i class="bx bx-group"></i>
+                                    <span key="t-users">Usuarios</span>
+                                </a>
+                            </li>
+                            {% endif %}
+
+                            {% set user_permissions = current_user.permissions | map(attribute='name') | list %}
+                            {% if current_user.profile.value == 1 or 'VER_REPORTES' in user_permissions %}
+                            <li>
+                                <a href="/reportes" class="waves-effect">
+                                    <i class="bx bx-file"></i>
+                                    <span key="t-reports">Reportes Financieros</span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </div>
+
+            
 
             <div class="main-content">
 
