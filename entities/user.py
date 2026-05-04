@@ -58,7 +58,7 @@ class User (UserMixin):
             hash_password = generate_password_hash(password)
 
             sql = "INSERT INTO user (name, email, password) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (name, email, hash_password))
+            cursor.execute(sql, (name, email, hash_password, 2, True))
             connection.commit()
 
             cursor.close()
@@ -84,8 +84,7 @@ class User (UserMixin):
             if user and check_password_hash(user["password"], password):
                 permissions = Permission.get_permissions_by_id(user["id"])
 
-                if user["is_active"] is not None:
-                    is_active = user["is_active"] == b'\x01'
+                is_active = user["is_active"] == b'\x01' if user["is_active"] is not None else False
 
                 return User(
                     user["id"],
@@ -118,8 +117,7 @@ class User (UserMixin):
             if user:
                 
                 permissions = Permission.get_permissions_by_id(user["id"])
-                if user["is_active"] is not None:
-                    is_active = user["is_active"] == b'\x01'
+                is_active = user["is_active"] == b'\x01' if user["is_active"] is not None else False
                 return User(
                     user["id"],
                     user["name"],

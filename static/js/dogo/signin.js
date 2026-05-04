@@ -40,7 +40,7 @@ function login(){
             Swal.fire({
                 icon: 'error',
                 title: 'Error de acceso',
-                text: 'Sus datos de acceso no son correctos.'
+                text: result.message
             });
         }
     })
